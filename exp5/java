@@ -1,0 +1,46 @@
+package com.demo;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/GetPostServlet")
+public class GetPostServlet extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        out.println("<h2>GET Method Used</h2>");
+        out.println("<p>Name: " + name + "</p>");
+        out.println("<p>Email: " + email + "</p>");
+        out.println("<p>Data is visible in URL</p>");
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        out.println("<h2>POST Method Used</h2>");
+        out.println("<p>Name: " + name + "</p>");
+        out.println("<p>Email: " + email + "</p>");
+        out.println("<p>Data is NOT visible in URL</p>");
+    }
+}
