@@ -1,0 +1,40 @@
+servletimport java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/UserDataServlet")
+public class UserDataServlet extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        String name = request.getParameter("name");
+        String ageStr = request.getParameter("age");
+
+        try {
+            int age = Integer.parseInt(ageStr);
+
+            out.println("<html><body>");
+            out.println("<h2>Hello, " + name +
+                        "! You are " + age + " years old.</h2>");
+            out.println("</body></html>");
+
+        } catch (NumberFormatException e) {
+
+            out.println("<html><body>");
+            out.println("<h2>Please enter a valid age.</h2>");
+            out.println("</body></html>");
+        }
+    }
+}
