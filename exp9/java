@@ -1,0 +1,90 @@
+package com.example.email;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+
+    private EditText etRecipient, etSubject, etMessage;
+    private TextView tvAttachment;
+    private Uri attachmentUri;
+
+    private final ActivityResultLauncher<String> filePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null) {
+                    attachmentUri = uri;
+                    tvAttachment.setText(getString(R.string.file_attached, uri.getLastPathSegment()));
+                }
+            }
+    );
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        etRecipient = findViewById(R.id.etRecipient);
+        etSubject = findViewById(R.id.etSubject);
+        etMessage = findViewById(R.id.etMessage);
+        tvAttachment = findViewById(R.id.tvAttachment);
+        Button btnAttach = findViewById(R.id.btnAttach);
+        Button btnSend = findViewById(R.id.btnSend);
+
+        btnAttach.setOnClickListener(v -> filePickerLauncher.launch("*/*"));
+
+        btnSend.setOnClickListener(v -> sendEmail());
+    }
+
+    private void sendEmail() {
+        String recipient = etRecipient.getText().toString().trim();
+        String subject = etSubject.getText().toString().trim();
+        String message = etMessage.getText().toString().trim();
+
+        if (recipient.isEmpty() || subject.isEmpty() || message.isEmpty()) {
+            Toast.makeText(this, R.string.error_fill_fields, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent;
+        if (attachmentUri != null) {
+            intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("message/rfc822");
+            intent.putExtra(Intent.EXTRA_STREAM, attachmentUri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse("mailto:"));
+        }
+
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{recipient});
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+
+        try {
+            startActivity(Intent.createChooser(intent, getString(R.string.choose_email_client)));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(MainActivity.this, R.string.error_no_email_client, Toast.LENGTH_SHORT).show();
+        }
+    }
+}
