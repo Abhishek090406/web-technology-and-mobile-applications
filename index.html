@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department of AI & ML</title>
+    <style>
+        /* --- 1. CSS VARIABLES (Theme Colors) --- */
+        :root {
+            --primary: #0a192f;       /* Deep Navy */
+            --secondary: #112240;     /* Light Navy */
+            --accent: #64ffda;        /* Neon Cyan */
+            --text-light: #ccd6f6;    /* Soft White */
+            --text-dark: #8892b0;     /* Muted Blue-Grey */
+            --white: #ffffff;
+            --shadow: 0 10px 30px -10px rgba(2,12,27,0.7);
+        }
+
+        /* --- 2. GLOBAL RESET & SMOOTH SCROLL --- */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* --- 3. ANIMATIONS --- */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- 4. HEADER & HERO SECTION --- */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 4rem 1rem 6rem 1rem;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        header p {
+            font-size: 1.3rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+            animation: fadeInUp 1.2s ease forwards;
+        }
+
+        .hero-btn:hover {
+            background: rgba(100, 255, 218, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* --- 5. NAVIGATION BAR (Sticky & Glassy) --- */
+        nav {
+            background: rgba(10, 25, 47, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 1.2rem 2rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: var(--accent);
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        /* --- 6. NEWS TICKER --- */
+        .news-ticker {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 0.8rem;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--text-dark);
+        }
+
+        /* --- 7. MAIN CONTAINER & SECTIONS --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        section {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            scroll-margin-top: 100px;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        h2::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 30px;
+            background: var(--accent);
+            margin-right: 15px;
+            border-radius: 4px;
+        }
+
+        /* --- 8. FACULTY CARDS (Updated Role Color) --- */
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            top: 0;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            top: -10px;
+        }
+
+        .card h3 { color: var(--secondary); margin-bottom: 5px; }
+       
+        /* THIS IS THE CHANGE: Role color set to BLACK */
+        .card .role {
+            color: black;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            display: block;
+        }
+
+        /* --- 9. SYLLABUS ACCORDION --- */
+        details {
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        details:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        summary {
+            background: #fcfcfc;
+            padding: 18px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.2s;
+        }
+
+        summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        details[open] summary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        details[open] summary::after {
+            content: '-';
+            color: white;
+        }
+
+        .syllabus-content {
+            padding: 20px;
+            background: white;
+            color: #555;
+            line-height: 1.8;
+            border-top: 1px solid #eee;
+        }
+
+        /* --- 10. FORM STYLING --- */
+        form { display: grid; gap: 20px; }
+       
+        .form-group { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e6e6e6;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: 0.3s;
+            background: #fafafa;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(100, 255, 218, 0.1);
+        }
+
+        button {
+            background: var(--primary);
+            color: var(--accent);
+            padding: 15px 30px;
+            border: 1px solid var(--accent);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            width: fit-content;
+        }
+
+        button:hover {
+            background: rgba(100, 255, 218, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* --- 11. FOOTER --- */
+        footer {
+            background: var(--secondary);
+            color: var(--text-dark);
+            text-align: center;
+            padding: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.2rem; }
+            nav { flex-direction: column; padding: 10px; }
+            nav a { width: 100%; text-align: center; padding: 10px; }
+            nav a::after { display: none; }
+            .form-group { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="top">
+        <h1>Department of AI & ML</h1>
+        <p>Innovation • Intelligence • Future</p>
+        <a href="#contact" class="hero-btn">Apply Now</a>
+    </header>
+
+    <nav>
+        <a href="#top">Home</a>
+        <a href="#about">About</a>
+        <a href="#faculty">Faculty</a>
+        <a href="#academics">Academics</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="news-ticker">
+        <marquee behavior="scroll" direction="left" scrollamount="8">
+            📢 <b>LATEST:</b> Admissions Open for 2026 Batch  &nbsp;✦&nbsp;  🏆 Department wins National AI Hackathon  &nbsp;✦&nbsp;  🤖 Guest Lecture by Google AI Team on Feb 5th.
+        </marquee>
+    </div>
+
+    <div class="container">
+       
+        <section id="about">
+            <h2>Shaping the Future</h2>
+            <p>
+                Welcome to the Department of Artificial Intelligence & Machine Learning.
+                We are at the forefront of the technological revolution, bridging the gap between
+                theoretical algorithms and real-world applications. From <b>Deep Learning</b> to
+                <b>Autonomous Systems</b>, our curriculum is designed to create the innovators of tomorrow.
+            </p>
+        </section>
+
+        <section id="faculty">
+            <h2>Meet Our Faculty</h2>
+            <div class="faculty-grid">
+                <div class="card">
+                    <h3>Dr. A. Sharma</h3>
+                    <span class="role">Head of Department</span>
+                    <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+                    <p>Ph.D. in Deep Learning<br>20 Years Experience</p>
+                </div>
+                <div class="card">
+                    <h3>Prof. B. John</h3>
+                    <span class="role">Assistant Professor</span>
+                    <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+                    <p>Expert in Computer Vision<br>Reviewer for IEEE</p>
+                </div>
+                <div class="card">
+                    <h3>Dr. C. Priya</h3>
+                    <span class="role">Associate Professor</span>
+                    <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+                    <p>NLP & Robotics Specialist<br>Research Lead</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="academics">
+            <h2>Curriculum Details</h2>
+           
+            <details>
+                <summary>Semester 1: Fundamentals of AI</summary>
+                <div class="syllabus-content">
+                    <ul>
+                        <li>Mathematics for Machine Learning (Linear Algebra, Calculus)</li>
+                        <li>Advanced Python Programming & Data Structures</li>
+                        <li>Introduction to Intelligent Agents</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>Semester 2: Core Machine Learning</summary>
+                <div class="syllabus-content">
+                    <ul>
+                        <li>Supervised & Unsupervised Learning Algorithms</li>
+                        <li>Neural Networks & Backpropagation</li>
+                        <li>Database Management Systems (SQL/NoSQL)</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>Semester 3: Advanced Specializations</summary>
+                <div class="syllabus-content">
+                    <ul>
+                        <li>Natural Language Processing (NLP) & Sentiment Analysis</li>
+                        <li>Computer Vision & Image Processing</li>
+                        <li>Ethics in AI & Data Privacy</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section id="contact">
+            <h2>Student Inquiry</h2>
+            <form>
+                <div class="form-group">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                </div>
+                <input type="text" placeholder="Subject (e.g., Admissions, Research)">
+                <textarea rows="5" placeholder="How can we help you today?"></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>Developed by <strong>Abhishek</strong></p>
+        <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.6; letter-spacing: 1px;">
+            &copy; 2026 AI & ML DEPARTMENT | ALL RIGHTS RESERVED
+        </p>
+    </footer>
+
+</body>
+</html>
+
